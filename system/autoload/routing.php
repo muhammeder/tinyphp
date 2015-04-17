@@ -4,8 +4,9 @@ class Routing {
     
     private $_uri = array();
     
-    public function add($uri, $controller, $method=null) {
-        $route = new Route($controller, $method);
+    public function add($uri) { //, $controller, $method=null) {
+        //$route = new Route($controller, $method);
+        $route = new Route;
         $this->_uri[$uri] = $route;
         return $route;
     }
@@ -25,7 +26,7 @@ class Routing {
         
         if (!$b) {
             echo "Page is not found!";
-            exit();
+            die();
         }
     }
 }

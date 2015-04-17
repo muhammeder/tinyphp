@@ -6,12 +6,12 @@ class LoginController extends Controller {
         echo 'test';
     }
     
-    public function login() {
+    public function loginAction() {
         //echo 'this is login of LoginController';
         $this->render('login/login');
     }
     
-    public function logout() {
+    public function logoutAction() {
         echo 'this is logout of LoginController';
     }
     

@@ -2,30 +2,44 @@
 
 class Route {
     
-    private $controller;
-    private $action;
+    private $controller = array();
+    private $action = array();
     
     private $before;
     private $after;
     
-    public function __construct($controller, $action=null) {
+    public function __construct() {
+    }
+    
+    public function get($controller, $action=null) {
+        return $this->addAction('GET', $controller, $action);
+    }
+    
+    public function post($controller, $action=null) {
+        return $this->addAction('POST', $controller, $action);
+    }
+    
+    private function addAction($method, $controller, $action=null) {
         if ($action == null) $action = 'indexAction';
-        $this->controller = $controller;
-        $this->action = $action;
+        $this->controller[$method] = $controller;
+        $this->action[$method] = $action;
+        
+        return $this;
     }
     
     public function getAction() {
         if (is_callable($this->before))
             call_user_func($this->before);
+            
+        $method = $_SERVER['REQUEST_METHOD'];
         
-        if(is_callable($this->controller)) {
-            $func = $this->controller;
-            $func();
+        $controller = $this->controller[$method];
+        if(is_callable($controller)) {
+            $controller();
         } else {
-            includeFile('/app/controllers/' . $this->controller . '.php');
-            $class = $this->controller;
-            $obj = new $class;
-            $action = $this->action;
+            includeFile("/app/controllers/$controller.php");
+            $obj = new $controller;
+            $action = $this->action[$method];
             
             $obj->$action();
         }

@@ -13,6 +13,15 @@ function hasRole($role) {
     }
 };
 
+$app->routing->add("/login")
+    ->get("LoginController", "loginAction")
+    ->post(function () {
+        echo 'This is post';
+    })
+    ->addBefore(function() use ($app) {
+        $app->library->import('form');
+    });
+/*
 $app->routing->add("/", "HomeController", "indexAction")->addAfter(function() {
     echo 'AFTER <br />';
 });
@@ -42,3 +51,4 @@ $app->routing->add("/rb", function() use ($app) {
     
     R::close();
 });
+*/

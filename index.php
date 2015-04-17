@@ -14,9 +14,6 @@ function includeFolder($folder) {
 }
 
 includeFile("/system/app.php");
-
 $app = new App('debug');
-
 includeFolder('/app/routes');
-
 $app->run();
