@@ -15,13 +15,20 @@ class Routing {
         if (array_key_exists('PATH_INFO', $_SERVER)) {
             $uriPath = $_SERVER['PATH_INFO'];
         }
-        //echo 'URI:' . $uriPath . ':<br/>';
         
+        $b = FALSE;
         foreach ($this->_uri as $key => $value) {
             //if (preg_match("#^$key$#", $uriPath)) {
             if ($uriPath === $key) {
                 $value->getAction();
+                $b = TRUE;
+                break;
             }
+        }
+        
+        if (!$b) {
+            echo "Page is not found!";
+            exit();
         }
     }
 }
