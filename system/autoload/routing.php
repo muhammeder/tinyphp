@@ -11,10 +11,7 @@ class Routing {
     }
     
     public function submit() {
-        $uriPath = '/';
-        if (array_key_exists('PATH_INFO', $_SERVER)) {
-            $uriPath = $_SERVER['PATH_INFO'];
-        }
+        $uriPath = UrlHelper::getUri();
         
         $b = FALSE;
         foreach ($this->_uri as $key => $value) {

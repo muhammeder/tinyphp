@@ -1,13 +1,14 @@
 <?php
-includeFile('/system/library.php');
-includeFile('/system/routing.php');
-includeFile('/system/route.php');
-includeFile('/system/controller.php');
+$autoload_files = array_diff(scandir('system/autoload'), array('..', '.'));
+foreach ($autoload_files as $value) {
+    $file = '/system/autoload/' . $value;
+    if (!is_dir($file))
+        includeFile($file);
+}
 
 class App {
     
     public $route;
-    
     public $library;
     
     public function __construct($mode = 'release') {
@@ -17,6 +18,7 @@ class App {
         }
         $this->library = new Library();
         $this->routing = new Routing();
+        $this->urlHelper = new UrlHelper();
     }
     
     public function run() {

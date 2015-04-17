@@ -1,17 +1,33 @@
 <?php
-
-$authAdmin = function() {
-    echo 'You are admin <br />';
-};
-
 global $app;
 
-$app->routing->add("/", "HomeController", "indexAction")->addBefore($authAdmin)->addAfter(function() {
+function hasRole($role) {
+    global $app;
+    echo "Are you $role ? <br />";
+    $app->library->import('auth');
+    
+    $auth = new Auth();
+    
+    if (!$auth->isLogin() || !$auth->hasRole($role)) {
+        $app->urlHelper->redirect($auth->getLoginUrl());
+    }
+};
+
+$app->routing->add('/hakkinda', function() {
+    echo 'TEST';
+});
+
+$app->routing->add("/", "HomeController", "indexAction")->addAfter(function() {
     echo 'AFTER <br />';
 });
 $app->routing->add("/login", "LoginController", 'login');
 $app->routing->add("/logout", function() {
-    echo 'Logout function';
+    UrlHelper::redirect("/login");
+});
+$app->routing->add("/dashboard", function() {
+    echo 'This is dashboard';
+})->addBefore(function() {
+    hasRole('user');
 });
 
 $app->routing->add("/rb", function() use ($app) {
