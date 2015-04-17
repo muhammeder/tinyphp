@@ -3,28 +3,50 @@ global $app;
 
 function hasRole($role) {
     global $app;
-    echo "Are you $role ? <br />";
     $app->library->import('auth');
     
-    $auth = new Auth();
-    
-    if (!$auth->isLogin() || !$auth->hasRole($role)) {
-        $app->urlHelper->redirect($auth->getLoginUrl());
+    if (!Auth::isLogin() || !Auth::hasRole($role)) {
+        UrlHelper::redirect(Auth::getLoginUrl());
     }
 };
 
 $app->routing->add("/login")
     ->get("LoginController", "loginAction")
     ->post(function () {
-        echo 'This is post';
+        global $app;
+        $app->library->import('auth');
+        $auth = new Auth;
+        if ($auth->login(5, 'Muhammed')) {
+            UrlHelper::redirect("/");
+        }
+        UrlHelper::redirect("/login");
     })
     ->addBefore(function() use ($app) {
         $app->library->import('form');
     });
+    
+$app->routing->add("/logout")
+    ->get(function () {
+        global $app;
+        $app->library->import('auth');
+        Auth::logout();
+        UrlHelper::redirect("/login");
+    });
+
+$app->routing->add("/")
+    ->get(function () {
+        global $app;
+        $app->library->import('auth');
+        echo 'Your user id : ' . Auth::getUserId();
+    })->addBefore(function () {
+        hasRole('ROLE_ADMIN');
+    });
+    
+    
+    
+    
+
 /*
-$app->routing->add("/", "HomeController", "indexAction")->addAfter(function() {
-    echo 'AFTER <br />';
-});
 $app->routing->add("/login", "LoginController", 'login')->addBefore(function() use ($app) {
     $app->library->import('form');
 });

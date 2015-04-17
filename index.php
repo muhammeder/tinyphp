@@ -3,7 +3,7 @@
 define('BASE_PATH', dirname($_SERVER["SCRIPT_FILENAME"]));
 
 function includeFile($fileName) {
-    include (BASE_PATH . $fileName);
+    include_once (BASE_PATH . $fileName);
 }
 
 function includeFolder($folder) {
