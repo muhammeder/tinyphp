@@ -1,7 +1,7 @@
 <?php
 class UrlHelper {
     public static function redirect($route) {
-        $routePath = UrlHelper::getAppPath() . $route;
+        $routePath = UrlHelper::getPath($route);
         header("Location: $routePath");
         die();
     }
@@ -20,5 +20,9 @@ class UrlHelper {
             $uriPath = $_SERVER['PATH_INFO'];
         }
         return $uriPath;
+    }
+    
+    public static function getPath($route) {
+        return UrlHelper::getAppPath() . $route;
     }
 }

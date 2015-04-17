@@ -1,10 +1,5 @@
 <?php
-$autoload_files = array_diff(scandir('system/autoload'), array('..', '.'));
-foreach ($autoload_files as $value) {
-    $file = '/system/autoload/' . $value;
-    if (!is_dir($file))
-        includeFile($file);
-}
+includeFolder('/system/autoload');
 
 class App {
     

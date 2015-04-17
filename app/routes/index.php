@@ -13,14 +13,12 @@ function hasRole($role) {
     }
 };
 
-$app->routing->add('/hakkinda', function() {
-    echo 'TEST';
-});
-
 $app->routing->add("/", "HomeController", "indexAction")->addAfter(function() {
     echo 'AFTER <br />';
 });
-$app->routing->add("/login", "LoginController", 'login');
+$app->routing->add("/login", "LoginController", 'login')->addBefore(function() use ($app) {
+    $app->library->import('form');
+});
 $app->routing->add("/logout", function() {
     UrlHelper::redirect("/login");
 });
