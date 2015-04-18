@@ -6,7 +6,7 @@ function hasRole($role) {
     $app->library->import('auth');
     
     if (!Auth::isLogin() || !Auth::hasRole($role)) {
-        UrlHelper::redirect(Auth::getLoginUrl());
+        Auth::redirectToLogin();
     }
 };
 

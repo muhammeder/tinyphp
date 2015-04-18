@@ -41,6 +41,10 @@ class Auth {
         session_destroy();
     }
     
+    public static function redirectToLogin() {
+        UrlHelper::redirect(Auth::getLoginUrl());
+    }
+    
     public static function getUserId() {
         return Auth::$user_id;
     }
