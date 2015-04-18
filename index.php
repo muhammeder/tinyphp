@@ -2,6 +2,21 @@
 
 define('BASE_PATH', dirname($_SERVER["SCRIPT_FILENAME"]));
 
+function endswith($string, $test) {
+    $strlen = strlen($string);
+    $testlen = strlen($test);
+    if ($testlen > $strlen) return false;
+    return substr_compare($string, $test, $strlen - $testlen, $testlen) === 0;
+}
+
+spl_autoload_register(function ($class) {
+    //include 'classes/' . $class . '.class.php';
+    if (endswith($class, 'Model')) {
+        $filename = strtolower($class) . '.php';
+        includeFile("/app/models/$filename");
+    }
+});
+
 function includeFile($fileName) {
     include_once (BASE_PATH . $fileName);
 }

@@ -1,45 +1,24 @@
 <?php
 global $app;
 
-function hasRole($role) {
-    global $app;
-    $app->library->import('auth');
-    
-    if (!Auth::isLogin() || !Auth::hasRole($role)) {
-        Auth::redirectToLogin();
-    }
-};
-
-$app->routing->add("/login")
-    ->get("LoginController", "loginAction")
-    ->post(function () {
-        global $app;
-        $app->library->import('auth');
-        $auth = new Auth;
-        if ($auth->login(5, 'Muhammed')) {
-            UrlHelper::redirect("/");
-        }
-        UrlHelper::redirect("/login");
-    })
-    ->addBefore(function() use ($app) {
-        $app->library->import('form');
-    });
-    
-$app->routing->add("/logout")
-    ->get(function () {
-        global $app;
-        $app->library->import('auth');
-        Auth::logout();
-        UrlHelper::redirect("/login");
-    });
-
 $app->routing->add("/")
     ->get(function () {
         global $app;
         $app->library->import('auth');
         echo 'Your user id : ' . Auth::getUserId();
-    })->addBefore(function () {
-        hasRole('ROLE_ADMIN');
+    })->addBefore(function () use ($app) {
+        $app->library->import('auth');
+        Auth::hasNotRoleRedirect('ROLE_USER');
+    });
+    
+$app->routing->add("/admin")
+    ->get(function () {
+        global $app;
+        $app->library->import('auth');
+        echo 'Your user id : ' . Auth::getUserId();
+    })->addBefore(function () use ($app) {
+        $app->library->import('auth');
+        Auth::hasNotRoleRedirect('ROLE_ADMIN');
     });
     
     

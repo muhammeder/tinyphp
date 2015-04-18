@@ -5,6 +5,8 @@ class App {
     
     public $route;
     public $library;
+    public $library_user;
+    public $request;
     
     public function __construct($mode = 'release') {
         if ($mode == 'debug') {
@@ -12,9 +14,10 @@ class App {
             error_reporting(E_ALL);
         }
         
-        $this->library = new Library();
-        $this->routing = new Routing();
-        $this->urlHelper = new UrlHelper();
+        $this->library = new Library('/system/library');
+        $this->library_user = new Library('/app/library');
+        $this->routing = new Routing;
+        $this->request = new Request;
     }
     
     public function run() {
