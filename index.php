@@ -21,6 +21,13 @@ function includeFile($fileName) {
     include_once (BASE_PATH . $fileName);
 }
 
+function includeFileWithData($fileName, $data = array()) {
+    ob_start();
+    extract($data);
+    include (BASE_PATH . $fileName);
+    return ob_get_clean();
+}
+
 function includeFolder($folder) {
     $folder = BASE_PATH . $folder . "/*.php";
     foreach (glob($folder) as $filename) {

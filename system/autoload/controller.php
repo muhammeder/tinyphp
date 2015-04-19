@@ -1,6 +1,15 @@
 <?php
+global $app;
 class Controller {
-    public function render($themeFile) {
-        includeFile('/app/views/' . $themeFile . '.php');
+    protected $app;
+    
+    public function __construct() {
+        global $app;
+        $this->app = $app;
     }
+    
+    public function render($themeFile, $data = array()) {
+        echo includeFileWithData('/app/views/' . $themeFile . '.php', $data);
+    }
+    
 }

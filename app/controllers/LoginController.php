@@ -1,18 +1,27 @@
 <?php
 class LoginController extends Controller {
-    
-    public function indexAction() {
-        echo 'this is indexAction of LoginController';
-        echo 'test';
-    }
-    
+    // GET
     public function loginAction() {
         //echo 'this is login of LoginController';
         $this->render('login/login');
     }
     
-    public function logoutAction() {
-        echo 'this is logout of LoginController';
+    // POST
+    public function loginPostAction() {
+        //print_r($_POST);
+        //die();
+        
+        global $app;
+        $username = $app->request->getPrm('username');
+        $password = $app->request->getPrm('password');
+        
+        $user = UserModel::find($username, $password);
+        if (!$user)
+            $this->data['error'] = 'Username or Password is not correct!';
+            $this->render('login/login');
+        if (Auth::login($user->id, $user->username, $user->roles)) {
+            UrlHelper::redirect("/");
+        }
     }
     
 }

@@ -42,7 +42,7 @@ class Auth {
         Auth::$user_roles = $roles;
         
         $_SESSION['logged_id'] = $id;
-        $_SESSION['logged_user'] = $username;
+        $_SESSION['logged_name'] = $username;
         $_SESSION['logged_roles'] = $roles;
         
         return TRUE;
@@ -58,6 +58,10 @@ class Auth {
     
     public static function getUserId() {
         return Auth::$user_id;
+    }
+    
+    public static function getUserName() {
+        return Auth::$user_name;
     }
     
 }
