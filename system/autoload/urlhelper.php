@@ -7,10 +7,12 @@ class UrlHelper {
     }
     
     public static function getAppPath() {
-        $uriPath = '/';
+        $uriPath = '';
         if (array_key_exists('SCRIPT_NAME', $_SERVER)) {
             $uriPath = dirname($_SERVER['SCRIPT_NAME']);
         }
+        if ($uriPath === '/')
+            return '';
         return $uriPath;
     }
     
